@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Milan Infotech Pvt Ltd — Pioneer in Technology, Leader in Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0A1F44;
+    --navy-light: #142d5f;
+    --teal: #0D7377;          /* ← NEW: teal nav option (see comment block below) */
+    --charcoal: #1C2B3A;      /* ← NEW: dark charcoal nav option */
+    --slate: #2C3E50;         /* ← NEW: professional slate nav option */
+    --gold: #C9922A;
+    --gold-light: #e8b04a;
+    --white: #FFFFFF;
+    --off-white: #F7F8FA;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --text-dark: #1A1A2E;
+    --font-head: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+
+  /* ═══════════════════════════════════════════
+     NAV — Currently: --navy (#0A1F44)
+     Other great options for your brand:
+       • var(--charcoal) = #1C2B3A  (deep dark, very modern)
+       • var(--slate)    = #2C3E50  (corporate slate blue-gray)
+       • var(--teal)     = #0D7377  (fresh teal — pairs with gold)
+       • #1a1a2e                    (near-black, ultra-premium)
+       • #1B3A4B                    (deep ocean blue)
+     Change --navy below to any of the above to preview.
+  ═══════════════════════════════════════════ */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 999;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 90px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+    transition: background 0.3s;
+  }
+  nav.scrolled { background:white; backdrop-filter: blur(8px); }
+  .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-img { height: 80px; width: 120px; display: block; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { color: rgba(14, 13, 13, 0.85); text-decoration: none; font-size: 14px; font-weight: bold; letter-spacing: 0.3px; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-cta {
+    background: var(--gold); color: var(--white); border: none;
+    padding: 10px 22px; border-radius: 6px; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+  /* Hamburger for mobile */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
+  .mobile-menu {
+    display: none; position: fixed; top: 80px; left: 0; right: 0;
+    background: var(--navy); padding: 20px 5%; z-index: 998;
+    flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 15px; font-weight: 500; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: block; transition: color 0.2s; }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .nav-cta { margin-top: 16px; text-align: center; border-bottom: none; border-radius: 6px; }
+
+  /* ═══════════════════════════════════════════
+     HERO SLIDER — AI Tech background images
+     Place 5 images in images/ folder:
+       slide-1.jpg → "AI data center server racks glowing blue"
+       slide-2.jpg → "software developer coding dark screen"
+       slide-3.jpg → "enterprise team business technology meeting"
+       slide-4.jpg → "automotive engineering CAD digital design"
+       slide-5.jpg → "cloud computing network abstract technology"
+     Recommended: 1920×700px JPG from Unsplash/Pexels (free)
+  ═══════════════════════════════════════════ */
+  .hero {
+    position: relative;
+    height: 100vh; min-height: 600px;
+    display: flex; align-items: center;
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .hero-slides {
+    position: absolute; inset: 0;
+  }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+  .hero-slide.active { opacity: 1; }
+  /* Dark overlay on every slide for text readability */
+  .hero-slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,31,68,0.88) 0%, rgba(10,31,68,0.75) 60%, rgba(10,31,68,0.50) 100%);
+  }
+  /* Assign slide backgrounds */
+  .hero-slide:nth-child(1) { background-image: url('images/slide-1.jpg'); }
+  .hero-slide:nth-child(2) { background-image: url('images/slide-2.jpg'); }
+  .hero-slide:nth-child(3) { background-image: url('images/slide-3.jpg'); }
+  .hero-slide:nth-child(4) { background-image: url('images/slide-4.jfif'); }
+  .hero-slide:nth-child(5) { background-image: url('images/slide-5.jpg'); }
+
+  /* Slide nav dots */
+  .hero-dots {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 10;
+  }
+  .hero-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,0.35); cursor: pointer;
+    transition: all 0.3s; border: none; padding: 0;
+  }
+  .hero-dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* Prev/Next arrows */
+  .hero-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 10; width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    color: white; font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; backdrop-filter: blur(4px);
+  }
+  .hero-arrow:hover { background: rgba(201,146,42,0.5); border-color: var(--gold); }
+  .hero-arrow.prev { left: 24px; }
+  .hero-arrow.next { right: 24px; }
+
+  .hero-content { max-width: 700px; position: relative; z-index: 1; padding: 100px 5% 60px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,146,42,0.18); border: 1px solid rgba(201,146,42,0.45);
+    color: var(--gold-light); padding: 6px 16px; border-radius: 100px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .hero h1 {
+    font-family: var(--font-head); font-size: clamp(36px, 4.5vw, 62px);
+    color: var(--white); line-height: 1.15; margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--gold-light); }
+  .hero p {
+    font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.75);
+    margin-bottom: 40px; max-width: 560px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--white);
+    padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600;
+    text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1.5px solid rgba(255,255,255,0.4); color: var(--white);
+    padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 500;
+    text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--white);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+    padding: 0 5%;
+    display: flex; justify-content: space-around; flex-wrap: wrap;
+  }
+  .stat-item { padding: 32px 20px; text-align: center; flex: 1; min-width: 140px; border-right: 1px solid var(--light-gray); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: var(--font-head); font-size: 36px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .stat-num span { color: var(--gold); }
+  .stat-label { font-size: 13px; color: var(--gray); margin-top: 6px; font-weight: 500; letter-spacing: 0.3px; }
+
+  /* SECTION BASE */
+  section { padding: 90px 5%; }
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-head); font-size: clamp(28px, 3vw, 40px); color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+  .section-sub { font-size: 16px; color: var(--gray); line-height: 1.7; max-width: 580px; }
+  .section-header { margin-bottom: 56px; }
+
+  /* ABOUT STRIP */
+  .about-strip { background: var(--off-white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .about-visual { background: var(--navy); border-radius: 16px; padding: 48px 40px; position: relative; overflow: hidden; }
+  .about-visual::before { content: ''; position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(201,146,42,0.12); }
+  .about-year { font-family: var(--font-head); font-size: 80px; font-weight: 700; color: rgba(255,255,255,0.06); line-height: 1; }
+  .about-tagline { font-family: var(--font-head); font-size: 26px; color: var(--white); margin-top: -20px; line-height: 1.3; }
+  .about-tagline span { color: var(--gold-light); }
+  .about-desc { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 20px; line-height: 1.7; }
+  .about-points { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+  .about-points li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: var(--text-dark); line-height: 1.5; }
+  .about-points li::before { content: ''; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 2px; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .service-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 14px; padding: 36px 28px; transition: all 0.25s; cursor: default; position: relative; overflow: hidden; }
+  .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+  .service-card:hover { box-shadow: 0 12px 40px rgba(10,31,68,0.1); transform: translateY(-4px); border-color: transparent; }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(10,31,68,0.06); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 24px; }
+  .service-title { font-family: var(--font-head); font-size: 19px; color: var(--navy); margin-bottom: 10px; }
+  .service-desc { font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+  /* INDUSTRIES */
+  .industries { background: var(--off-white); }
+  .industry-chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+  .chip { background: var(--white); border: 1px solid var(--light-gray); padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--navy); transition: all 0.2s; }
+  .chip:hover { border-color: var(--gold); background: rgba(201,146,42,0.05); }
+
+  /* CLIENTS SCROLL */
+  .clients-track { overflow: hidden; position: relative; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+  .clients-scroll { display: flex; gap: 28px; align-items: center; animation: scroll-logos 40s linear infinite; width: max-content; }
+  .clients-scroll:hover { animation-play-state: paused; }
+  @keyframes scroll-logos { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .client-logo-img { height: 60px; width: 160px; object-fit: contain; border: 1px solid var(--light-gray); border-radius: 10px; background: var(--white); padding: 8px 16px; flex-shrink: 0; transition: border-color 0.2s, box-shadow 0.2s; filter: grayscale(30%); }
+  .client-logo-img:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(10,31,68,0.1); filter: grayscale(0%); }
+
+  /* WHY US */
+  .why-us { background: var(--navy); }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 56px; }
+  .why-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 36px 28px; text-align: center; transition: all 0.25s; }
+  .why-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(201,146,42,0.4); }
+  .why-num { font-family: var(--font-head); font-size: 48px; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 10px; }
+  .why-label { font-family: var(--font-head); font-size: 17px; color: var(--white); margin-bottom: 8px; }
+  .why-sub { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+  /* CTA BAND */
+  .cta-band { background: linear-gradient(120deg, var(--gold) 0%, #a87820 100%); padding: 70px 5%; text-align: center; }
+  .cta-band h2 { font-family: var(--font-head); font-size: clamp(26px, 3vw, 38px); color: var(--white); margin-bottom: 14px; }
+  .cta-band p { font-size: 16px; color: rgba(255,255,255,0.85); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+  .btn-white { background: var(--white); color: var(--gold); padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all 0.2s; display: inline-block; }
+  .btn-white:hover { background: var(--navy); color: var(--white); }
+
+  /* ═══════════════════════════════════════════
+     FOOTER with Social Media Icons
+  ═══════════════════════════════════════════ */
+  footer { background: #06102a; padding: 60px 5% 30px; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr; gap: 32px; margin-bottom: 48px; }
+  .footer-about p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-top: 12px; }
+  .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; line-height: 1.6; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  /* Social icons */
+  .social-row { display: flex; gap: 10px; margin-top: 18px; }
+  .social-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: rgba(255,255,255,0.65);
+    font-size: 15px; transition: all 0.25s;
+  }
+  .social-icon:hover { transform: translateY(-3px); }
+  .social-icon.instagram:hover { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-color: transparent; }
+  .social-icon.linkedin:hover { background: #0077b5; color: white; border-color: transparent; }
+  .social-icon.facebook:hover { background: #1877f2; color: white; border-color: transparent; }
+  .social-icon.twitter:hover { background: #000; color: white; border-color: transparent; }
+  .social-icon.youtube:hover { background: #ff0000; color: white; border-color: transparent; }
+  /* Social SVG icons */
+  .social-icon svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  /* ═══════════════════════════════════════════
+     CHATBOT WIDGET
+  ═══════════════════════════════════════════ */
+  .chat-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #a87820);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,146,42,0.45);
+    transition: all 0.3s;
+  }
+  .chat-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(201,146,42,0.55); }
+  .chat-fab svg { width: 28px; height: 28px; fill: white; }
+  .chat-fab .chat-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #ef4444; color: white; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #06102a;
+  }
+
+  .chat-window {
+    position: fixed; bottom: 100px; right: 28px; z-index: 1000;
+    width: 360px; height: 500px;
+    background: var(--white); border-radius: 20px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column;
+    transform: scale(0.85) translateY(20px); opacity: 0;
+    pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+  .chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+  .chat-header {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    padding: 18px 20px; display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--gold); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-size: 14px; font-weight: 600; color: white; }
+  .chat-header-status { font-size: 11px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 4px; }
+  .chat-header-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; }
+  .chat-close { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; transition: color 0.2s; }
+  .chat-close:hover { color: white; }
+
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--light-gray); border-radius: 2px; }
+
+  .chat-msg { max-width: 85%; display: flex; flex-direction: column; gap: 4px; }
+  .chat-msg.bot { align-self: flex-start; }
+  .chat-msg.user { align-self: flex-end; }
+  .chat-bubble {
+    padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.55;
+  }
+  .chat-msg.bot .chat-bubble { background: var(--off-white); color: var(--text-dark); border-radius: 4px 16px 16px 16px; }
+  .chat-msg.user .chat-bubble { background: var(--navy); color: white; border-radius: 16px 4px 16px 16px; }
+  .chat-time { font-size: 10px; color: var(--gray); }
+  .chat-msg.user .chat-time { text-align: right; }
+
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: var(--off-white); border-radius: 4px 16px 16px 16px; width: fit-content; }
+  .chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--gray); animation: typing 1.2s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)} }
+
+  .chat-quick-btns { padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .chat-quick-btn {
+    padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 500;
+    background: rgba(10,31,68,0.06); border: 1px solid rgba(10,31,68,0.15);
+    color: var(--navy); cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .chat-quick-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+
+  .chat-input-row { padding: 12px 16px; border-top: 1px solid var(--light-gray); display: flex; gap: 8px; flex-shrink: 0; }
+  .chat-input {
+    flex: 1; border: 1px solid var(--light-gray); border-radius: 100px;
+    padding: 10px 16px; font-size: 13px; outline: none; font-family: var(--font-body);
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: var(--navy); }
+  .chat-send {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--navy); border: none;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; flex-shrink: 0;
+  }
+  .chat-send:hover { background: var(--gold); }
+  .chat-send svg { width: 16px; height: 16px; fill: white; }
+
+  @media (max-width: 768px) {
+    .about-grid, .footer-grid { grid-template-columns: 1fr; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .chat-window { width: calc(100vw - 32px); right: 16px; }
+    .hero-arrow { display: none; }
+  }
+  @media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="logo-wrap">
+    <img src="logo.png" alt="Milan Infotech Pvt Ltd" class="logo-img" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="contact.html" class="nav-cta">Get in Touch</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="products.html">Products</a>
+  <a href="clients.html">Clients</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="nav-cta">Get in Touch</a>
+</div>
+
+<!-- ═══ HERO SLIDER ═══ -->
+<section class="hero" id="heroSlider">
+  <div class="hero-slides">
+    <div class="hero-slide active"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+  </div>
+
+  <button class="hero-arrow prev" onclick="changeSlide(-1)">&#8592;</button>
+  <button class="hero-arrow next" onclick="changeSlide(1)">&#8594;</button>
+
+  <div class="hero-content">
+    <div class="hero-badge">Pioneer in Technology · Leader in Services</div>
+    <h1>Powering Enterprises With <span>Smart IT Solutions</span></h1>
+    <p>Milan Infotech Pvt Ltd is your preferred vendor and solution provider for Engineering, Software Development, ERP, Testing, and Staff Augmentation services — serving global industry leaders since 2007.</p>
+    <div class="hero-btns">
+      <a href="services.html" class="btn-primary">Explore Our Services</a>
+      <a href="contact.html" class="btn-outline">Talk to Us</a>
+    </div>
+  </div>
+
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" onclick="goToSlide(0)"></button>
+    <button class="hero-dot" onclick="goToSlide(1)"></button>
+    <button class="hero-dot" onclick="goToSlide(2)"></button>
+    <button class="hero-dot" onclick="goToSlide(3)"></button>
+    <button class="hero-dot" onclick="goToSlide(4)"></button>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">15<span>+</span></div><div class="stat-label">Years of Experience</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Pan-India Offices</div></div>
+  <div class="stat-item"><div class="stat-num">200<span>+</span></div><div class="stat-label">IT Professionals</div></div>
+  <div class="stat-item"><div class="stat-num">50<span>+</span></div><div class="stat-label">Enterprise Clients</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Engagement Models</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-strip">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-year">2007</div>
+      <div class="about-tagline">Making Technology <span>Work for Everyone</span></div>
+      <div class="about-desc">Incorporated in Bangalore, Karnataka, Milan Infotech Pvt Ltd has grown into a trusted IT solutions company serving enterprises across Automotive, Aerospace, BFSI, and more.</div>
+    </div>
+    <div>
+      <div class="section-tag">About Milan Infotech</div>
+      <h2 class="section-title">Your Preferred Technology Partner</h2>
+      <p class="section-sub">We help companies configure IT architectures across multiple geographies to reduce costs, maximise performance, and drive business growth.</p>
+      <ul class="about-points">
+        <li>Software Development &amp; Custom Solutions</li>
+        <li>SAP &amp; Oracle ERP Implementation</li>
+        <li>Staff Augmentation &amp; Niche Talent</li>
+        <li>End-to-End QA &amp; Testing Services</li>
+        <li>Engineering Support for Automotive &amp; Aerospace</li>
+      </ul>
+      <a href="about.html" class="btn-primary" style="display:inline-block; margin-top:32px;">Learn More About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section>
+  <div class="section-header">
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Our Core Services</h2>
+    <p class="section-sub">Comprehensive IT solutions tailored to meet the evolving needs of modern enterprises.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-icon">💻</div><div class="service-title">Software Development</div><p class="service-desc">Custom software solutions designed to solve complex business challenges across multiple technology stacks.</p></div>
+    <div class="service-card"><div class="service-icon">🔧</div><div class="service-title">ERP Solutions</div><p class="service-desc">SAP and Oracle-based ERP implementation, support, and integration for enterprise-level operations.</p></div>
+    <div class="service-card"><div class="service-icon">👥</div><div class="service-title">Staff Augmentation</div><p class="service-desc">On-demand skilled IT professionals to scale your team quickly with certified niche expertise.</p></div>
+    <div class="service-card"><div class="service-icon">🧪</div><div class="service-title">Testing Services</div><p class="service-desc">End-to-end QA and testing — functional, regression, performance, and mobile application testing.</p></div>
+    <div class="service-card"><div class="service-icon">⚙️</div><div class="service-title">Engineering Services</div><p class="service-desc">Specialized engineering support for automotive, aerospace, and manufacturing sector clients.</p></div>
+    <div class="service-card"><div class="service-icon">🖥️</div><div class="service-title">Infrastructure Management</div><p class="service-desc">Reliable IT infrastructure setup, monitoring, and management to keep your business running 24/7.</p></div>
+    <div class="service-card"><div class="service-icon">📦</div><div class="service-title">Software Product Sales</div><p class="service-desc">Empower your business with innovative software products and expert services designed to streamline operations and drive growth.</p></div>
+  </div>
+  <div style="text-align:center; margin-top:40px;"><a href="services.html" class="btn-primary">View All Services</a></div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries">
+  <div class="section-tag">Industries We Serve</div>
+  <h2 class="section-title">Cross-Industry Expertise</h2>
+  <p class="section-sub">From banking to aerospace, we bring deep domain knowledge to every project we undertake.</p>
+  <div class="industry-chips">
+    <span class="chip">Banking &amp; Finance</span>
+    <span class="chip">Insurance</span>
+    <span class="chip">Automotive</span>
+    <span class="chip">Aerospace</span>
+    <span class="chip">Manufacturing</span>
+    <span class="chip">Healthcare</span>
+    <span class="chip">Life Sciences</span>
+    <span class="chip">Retail &amp; Distribution</span>
+    <span class="chip">Shipping &amp; Transportation</span>
+    <span class="chip">Food Processing</span>
+  </div>
+</section>
+
+<!-- CLIENTS SCROLL -->
+<section>
+  <div class="section-header" style="text-align:center; max-width:600px; margin:0 auto 48px;">
+    <div class="section-tag">Our Clients</div>
+    <h2 class="section-title">Trusted by Industry Leaders</h2>
+    <p class="section-sub">We are proud to serve some of the most respected organisations across the globe.</p>
+  </div>
+  <div class="clients-track">
+    <div class="clients-scroll">
+      <img src="client-logos/lg.png" alt="LG" class="client-logo-img" />
+      <img src="client-logos/hal.png" alt="HAL" class="client-logo-img" />
+      <img src="client-logos/whirlpool.png" alt="Whirlpool" class="client-logo-img" />
+      <img src="client-logos/redbus.png" alt="Red Bus" class="client-logo-img" />
+      <img src="client-logos/tata-motors.png" alt="TATA Motors" class="client-logo-img" />
+      <img src="client-logos/mercedes.png" alt="Mercedes Benz" class="client-logo-img" />
+      <img src="client-logos/airbus.png" alt="Airbus" class="client-logo-img" />
+      <img src="client-logos/nissan.jfif" alt="Nissan" class="client-logo-img" />
+      <img src="client-logos/safran.png" alt="SAFRAN" class="client-logo-img" />
+      <img src="client-logos/faurecia.png" alt="Faurecia" class="client-logo-img" />
+      <img src="client-logos/kpit.png" alt="KPIT" class="client-logo-img" />
+      <img src="client-logos/autoliv.png" alt="Autoliv" class="client-logo-img" />
+      <img src="client-logos/goodrich.png" alt="Goodrich" class="client-logo-img" />
+      <img src="client-logos/danske-it.png" alt="Danske IT" class="client-logo-img" />
+      <!-- Duplicate for seamless loop --> 
+      <img src="client-logos/lg.png" alt="LG" class="client-logo-img" />
+      <img src="client-logos/hal.png" alt="HAL" class="client-logo-img" />
+      <img src="client-logos/whirlpool.png" alt="Whirlpool" class="client-logo-img" />
+      <img src="client-logos/redbus.png" alt="Red Bus" class="client-logo-img" />
+      <img src="client-logos/tata-motors.png" alt="TATA Motors" class="client-logo-img" />
+      <img src="client-logos/mercedes.png" alt="Mercedes Benz" class="client-logo-img" />
+      <img src="client-logos/airbus.png" alt="Airbus" class="client-logo-img" />
+      <img src="client-logos/nissan.jfif" alt="Nissan" class="client-logo-img" />
+      <img src="client-logos/safran.png" alt="SAFRAN" class="client-logo-img" />
+      <img src="client-logos/faurecia.png" alt="Faurecia" class="client-logo-img" />
+      <img src="client-logos/kpit.png" alt="KPIT" class="client-logo-img" />
+      <img src="client-logos/autoliv.png" alt="Autoliv" class="client-logo-img" />
+      <img src="client-logos/goodrich.png" alt="Goodrich" class="client-logo-img" />
+      <img src="client-logos/danske-it.png" alt="Danske IT" class="client-logo-img" />
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:40px;"><a href="clients.html" class="btn-primary">View All Clients</a></div>
+</section>
+
+<!-- WHY US -->
+<section class="why-us">
+  <div style="text-align:center; max-width:600px; margin:0 auto;">
+    <div class="section-tag" style="color:var(--gold-light);">Why Milan Infotech</div>
+    <h2 class="section-title" style="color:var(--white);">Numbers That Speak for Themselves</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-num">15+</div><div class="why-label">Years of Experience</div><div class="why-sub">Established since 2007</div></div>
+    <div class="why-card"><div class="why-num">3</div><div class="why-label">Pan-India Offices</div><div class="why-sub">Bangalore, Pune, Hyderabad</div></div>
+    <div class="why-card"><div class="why-num">3</div><div class="why-label">Engagement Models</div><div class="why-sub">Onsite, Offshore &amp; Hybrid ODC</div></div>
+    <div class="why-card"><div class="why-num">2</div><div class="why-label">Global Partners</div><div class="why-sub">BCC Services (France) &amp; ITIE Yemag (India)</div></div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Ready to Transform Your Business?</h2>
+  <p>Let Milan Infotech be your technology partner. Get in touch today and explore what we can build together.</p>
+  <a href="contact.html" class="btn-white">Contact Us Today</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <img src="logo.png" alt="Milan Infotech Pvt Ltd" style="height:48px; width:auto;" />
+      <p>Making technology work for everyone since 2007. Your preferred vendor and solution provider for Engineering, Software, ERP, and Staff Augmentation services.</p>
+      <!-- SOCIAL MEDIA ICONS -->
+      <div class="social-row">
+        <a href="https://www.instagram.com/milaninfotechprivatelimited" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/milan-infotech-pvt-ltd/" target="_blank" rel="noopener" class="social-icon linkedin" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/MilanInfotechPvtLtd" target="_blank" rel="noopener" class="social-icon facebook" title="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://x.com/LimitedMilan" target="_blank" rel="noopener" class="social-icon twitter" title="Twitter / X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+    
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Corporate Office</h4>
+      <ul>
+        <li><a href="#">World Trade Centre, 22nd Floor, Unit No 2201/A, Dr Rajkumar Rd, Malleshwaram, Bengaluru, Karnataka 560055</a></li>
+        <li><a href="tel:+919035056064">+91 9035056064</a></li>
+        <li><a href="mailto:info@milan-infotech.com">info@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Admin Office</h4>
+      <ul>
+        <li><a href="#">Swastik Manandi Arcade, S2 Block, 2nd Floor, 155, VV Giri Colony, Seshadripuram, Bengaluru, Karnataka 560020</a></li>
+        <li><a href="tel:+919845078365">+91 9845078365</a></li>
+        <li><a href="mailto:hr@milan-infotech.com">hr@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2007 Milan Infotech Pvt Ltd. All rights reserved.</p>
+    <p>Partnering with BCC Services, France &amp; ITIE Yemag, India</p>
+  </div>
+</footer>
+
+<!-- ═══ CHATBOT WIDGET ═══ -->
+<button class="chat-fab" onclick="toggleChat()" id="chatFab" title="Chat with us">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <span class="chat-badge">1</span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Milan Infotech Assistant</div>
+      <div class="chat-header-status">Online — typically replies instantly</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">👋 Hi there! I'm the Milan Infotech virtual assistant. How can I help you today?</div>
+      <div class="chat-time">Just now</div>
+    </div>
+    <div class="chat-msg bot">
+      <div class="chat-bubble">You can ask me about our services, clients, products, office locations, or how to get in touch with our team.</div>
+      <div class="chat-time">Just now</div>
+    </div>
+  </div>
+
+  <div class="chat-quick-btns" id="quickBtns">
+    <button class="chat-quick-btn" onclick="quickReply('Our Services')">Our Services</button>
+    <button class="chat-quick-btn" onclick="quickReply('Contact Info')">Contact Info</button>
+    <button class="chat-quick-btn" onclick="quickReply('Our Products')">Products</button>
+    <button class="chat-quick-btn" onclick="quickReply('About the company')">About Us</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message…" onkeydown="if(event.key==='Enter') sendChat()" />
+    <button class="chat-send" onclick="sendChat()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ── HERO SLIDER ── */
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+let sliderTimer;
+
+function goToSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+
+function changeSlide(dir) {
+  goToSlide(currentSlide + dir);
+  resetTimer();
+}
+
+function resetTimer() {
+  clearInterval(sliderTimer);
+  sliderTimer = setInterval(() => changeSlide(1), 5000);
+}
+
+// Auto-advance every 5 seconds
+sliderTimer = setInterval(() => changeSlide(1), 5000);
+
+/* ── NAV SCROLL EFFECT ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── MOBILE MENU ── */
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ── CHATBOT ── */
+let chatOpen = false;
+const chatResponses = {
+  'our services': 'We offer 7 core services: Software Development, ERP Solutions (SAP/Oracle), Staff Augmentation, Testing & QA, Engineering Services (Automotive/Aerospace), Infrastructure Management, and Software Product Sales. <a href="services.html" style="color:var(--gold);">View all services →</a>',
+  'contact info': 'You can reach us at:<br>📞 +91 9035056064<br>📧 info@milan-infotech.com<br>🏢 World Trade Centre, 22nd Floor, Bengaluru 560055<br><a href="contact.html" style="color:var(--gold);">Visit our contact page →</a>',
+  'our products': 'We have 3 products:<br>🏠 <b>Zoypg.com</b> — PG discovery & management platform<br>🚗 <b>Gadiwala</b> — Professional driver booking app<br>💱 <b>ExChek</b> — Fintech platform for cross-border payments<br><a href="products.html" style="color:var(--gold);">Explore products →</a>',
+  'about the company': 'Milan Infotech Pvt Ltd was founded in 2007 in Bangalore. We have 200+ IT professionals, 3 Pan-India offices (Bangalore, Pune, Hyderabad), and serve 50+ enterprise clients across 10+ industries. <a href="about.html" style="color:var(--gold);">Learn more →</a>',
+  'clients': 'We serve leading companies like Airbus, TATA Motors, Mercedes-Benz, LG, Whirlpool, HAL, SAFRAN, Nissan, and many more across Automotive, Aerospace, BFSI, and IT sectors. <a href="clients.html" style="color:var(--gold);">See all clients →</a>',
+  'erp': 'We specialise in SAP S/4HANA and Oracle EBS implementation, upgrades, and support. Our ERP team handles the full lifecycle from assessment to post-go-live support.',
+  'staff augmentation': 'We provide on-demand IT professionals across SAP, Java, Python, .NET, DevOps, QA, and more. Available in contract, contract-to-hire, and permanent staffing models.',
+  'offices': 'We have 3 offices in India:<br>📍 Bangalore (Corporate HQ)<br>📍 Pune (Branch)<br>📍 Hyderabad (Branch)',
+  'default': 'Thank you for your message! Our team will get back to you shortly. For immediate assistance, please call <b>+91 9035056064</b> or email <b>info@milan-infotech.com</b>.'
+};
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+  // Remove notification badge on first open
+  const badge = document.querySelector('.chat-badge');
+  if (chatOpen && badge) badge.style.display = 'none';
+}
+
+function addMessage(text, isUser) {
+  const msgs = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+  const now = new Date();
+  msg.innerHTML = `<div class="chat-bubble">${text}</div><div class="chat-time">${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}</div>`;
+  msgs.appendChild(msg);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function getResponse(msg) {
+  const m = msg.toLowerCase();
+  for (const key in chatResponses) {
+    if (key !== 'default' && m.includes(key)) return chatResponses[key];
+  }
+  // Keyword matching
+  if (m.includes('service')) return chatResponses['our services'];
+  if (m.includes('contact') || m.includes('phone') || m.includes('email') || m.includes('address')) return chatResponses['contact info'];
+  if (m.includes('product') || m.includes('zoypg') || m.includes('gadiwala') || m.includes('exchek')) return chatResponses['our products'];
+  if (m.includes('about') || m.includes('company') || m.includes('founded') || m.includes('history')) return chatResponses['about the company'];
+  if (m.includes('client') || m.includes('customer') || m.includes('partner')) return chatResponses['clients'];
+  if (m.includes('office') || m.includes('location') || m.includes('bangalore') || m.includes('pune')) return chatResponses['offices'];
+  if (m.includes('erp') || m.includes('sap') || m.includes('oracle')) return chatResponses['erp'];
+  if (m.includes('staff') || m.includes('talent') || m.includes('hire')) return chatResponses['staff augmentation'];
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return '👋 Hello! How can I help you today?';
+  return chatResponses['default'];
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  // Hide quick buttons after first user message
+  document.getElementById('quickBtns').style.display = 'none';
+  addMessage(text, true);
+  input.value = '';
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMessage(getResponse(text), false);
+  }, 1000 + Math.random() * 500);
+}
+
+function quickReply(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+</script>
+
+</body>
+</html>

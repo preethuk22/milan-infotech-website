@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About Us — Milan Infotech Pvt Ltd</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0A1F44;
+    --navy-light: #142d5f;
+    --gold: #C9922A;
+    --gold-light: #e8b04a;
+    --white: #FFFFFF;
+    --off-white: #F7F8FA;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --text-dark: #1A1A2E;
+    --font-head: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+
+  /* ── NAV — unified same color as logo background ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 999;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 90px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .logo-wrap { display: flex; align-items: center; text-decoration: none; }
+  .logo-img { height: 80px; width: 120px; display: block; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: rgba(14, 13, 13, 0.85); text-decoration: none; font-size: 14px; font-weight: bold; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+  .nav-cta { background: var(--gold); color: var(--white); padding: 10px 22px; border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── PAGE HERO — with external background image ── */
+  .page-hero {
+    background-image: url('images/about-hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    background-color: var(--navy);
+    padding: 220px 5% 380px;
+    position: relative; overflow: hidden;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,31,68,0.88) 0%, rgba(20,45,95,0.82) 60%, rgba(26,58,107,0.78) 100%);
+    pointer-events: none; z-index: 0;
+  }
+  .page-hero > * { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; }
+  .breadcrumb span { color: rgba(255,255,255,0.3); font-size: 13px; }
+  .breadcrumb .current { color: var(--gold-light); font-size: 13px; }
+  .page-hero h1 { font-family: var(--font-head); font-size: clamp(36px, 4.5vw, 58px); color: var(--white); line-height: 1.15; margin-bottom: 18px; }
+  .page-hero h1 span { color: var(--gold-light); }
+  .page-hero p { font-size: 17px; color: rgba(255,255,255,0.68); max-width: 580px; line-height: 1.75; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 90px 5%; }
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-head); font-size: clamp(26px, 3vw, 38px); color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+  .section-sub { font-size: 16px; color: var(--gray); line-height: 1.75; max-width: 600px; }
+
+  /* ── MISSION VISION ── */
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 52px; }
+  .mv-card { border-radius: 16px; padding: 44px 36px; position: relative; overflow: hidden; }
+  .mv-card.mission { background: var(--navy); }
+  .mv-card.vision { background: var(--gold); }
+  .mv-card::before { content: ''; position: absolute; bottom: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+  .mv-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+  .mv-card.mission .mv-label { color: var(--gold-light); }
+  .mv-card.vision .mv-label { color: rgba(255,255,255,0.75); }
+  .mv-title { font-family: var(--font-head); font-size: 26px; margin-bottom: 16px; }
+  .mv-card.mission .mv-title { color: var(--white); }
+  .mv-card.vision .mv-title { color: var(--white); }
+  .mv-text { font-size: 15px; line-height: 1.75; }
+  .mv-card.mission .mv-text { color: rgba(255,255,255,0.65); }
+  .mv-card.vision .mv-text { color: rgba(255,255,255,0.85); }
+
+  /* ── STORY TIMELINE ── */
+  .story { background: var(--off-white); }
+  .timeline { margin-top: 56px; position: relative; padding-left: 40px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--gold), var(--navy)); }
+  .tl-item { position: relative; margin-bottom: 48px; }
+  .tl-dot { position: absolute; left: -36px; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--gold); border: 3px solid var(--white); box-shadow: 0 0 0 3px var(--gold); }
+  .tl-year { font-size: 12px; font-weight: 700; color: var(--gold); letter-spacing: 1px; margin-bottom: 6px; }
+  .tl-heading { font-family: var(--font-head); font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+  .tl-desc { font-size: 14px; color: var(--gray); line-height: 1.7; max-width: 600px; }
+
+  /* ── VALUES ── */
+  .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 52px; }
+  .value-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 14px; padding: 36px 28px; text-align: center; transition: all 0.25s; }
+  .value-card:hover { box-shadow: 0 12px 40px rgba(10,31,68,0.1); transform: translateY(-4px); border-color: var(--gold); }
+  .value-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+  .value-name { font-family: var(--font-head); font-size: 19px; color: var(--navy); margin-bottom: 10px; }
+  .value-desc { font-size: 13px; color: var(--gray); line-height: 1.65; }
+
+  /* ── LEADERSHIP ── */
+  .leadership { background: var(--navy); }
+  .leadership .section-tag { color: var(--gold-light); }
+  .leadership .section-title { color: var(--white); }
+  .leadership .section-sub { color: rgba(255,255,255,0.6); }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 52px; }
+  .team-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 36px 24px; text-align: center; transition: all 0.25s; }
+  .team-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(201,146,42,0.4); }
+  .avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--gold); margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--white); }
+  .team-name { font-family: var(--font-head); font-size: 18px; color: var(--white); margin-bottom: 6px; }
+  .team-role { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 12px; }
+  .team-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+  /* ── ADVISORY ── */
+  .advisory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .advisory-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px 28px; display: flex; align-items: center; gap: 18px; }
+  .adv-avatar { width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0; background: rgba(201,146,42,0.2); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--gold-light); }
+  .adv-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .adv-role { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  /* ── PARTNERS ── */
+  .partners { background: var(--off-white); }
+  .partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; }
+  .partner-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; padding: 40px 36px; display: flex; align-items: flex-start; gap: 24px; transition: all 0.25s; }
+  .partner-card:hover { box-shadow: 0 12px 40px rgba(10,31,68,0.1); border-color: var(--gold); }
+  .partner-flag { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
+  .partner-name { font-family: var(--font-head); font-size: 20px; color: var(--navy); margin-bottom: 4px; }
+  .partner-country { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .partner-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  /* ── OFFICES ── */
+  .offices-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin-top: 48px; }
+  .office-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; padding: 28px 20px; text-align: center; transition: all 0.25s; }
+  .office-card:hover { border-color: var(--gold); box-shadow: 0 8px 24px rgba(10,31,68,0.08); }
+  .office-icon { font-size: 28px; display: block; margin-bottom: 12px; }
+  .office-city { font-family: var(--font-head); font-size: 17px; color: var(--navy); margin-bottom: 6px; }
+  .office-type { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; display: inline-block; }
+  .office-type.hq { background: rgba(201,146,42,0.12); color: var(--gold); }
+  .office-type.branch { background: rgba(10,31,68,0.07); color: var(--navy); }
+
+  /* ── CTA BAND ── */
+  .cta-band { background: linear-gradient(120deg, var(--gold) 0%, #a87820 100%); padding: 70px 5%; text-align: center; }
+  .cta-band h2 { font-family: var(--font-head); font-size: clamp(26px, 3vw, 38px); color: var(--white); margin-bottom: 14px; }
+  .cta-band p { font-size: 16px; color: rgba(255,255,255,0.85); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+  .btn-white { background: var(--white); color: var(--gold); padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all 0.2s; display: inline-block; }
+  .btn-white:hover { background: var(--navy); color: var(--white); }
+
+  /* ── FOOTER ── */
+    footer { background: #06102a; padding: 60px 5% 30px; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr; gap: 32px; margin-bottom: 48px; }
+  .footer-about p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-top: 12px; }
+  .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; line-height: 1.6; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  @media (max-width: 768px) {
+    .mv-grid, .advisory-grid, .partners-grid, .footer-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  /* Social icons */
+  .social-row { display: flex; gap: 10px; margin-top: 18px; }
+  .social-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: rgba(255,255,255,0.65);
+    font-size: 15px; transition: all 0.25s;
+  }
+  .social-icon:hover { transform: translateY(-3px); }
+  .social-icon.instagram:hover { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-color: transparent; }
+  .social-icon.linkedin:hover { background: #0077b5; color: white; border-color: transparent; }
+  .social-icon.facebook:hover { background: #1877f2; color: white; border-color: transparent; }
+  .social-icon.twitter:hover { background: #000; color: white; border-color: transparent; }
+  .social-icon.youtube:hover { background: #ff0000; color: white; border-color: transparent; }
+  .social-icon svg { width: 16px; height: 16px; fill: currentColor; }
+  /* Chatbot styles */
+  .chat-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, #C9922A, #a87820);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,146,42,0.45);
+    transition: all 0.3s;
+  }
+  .chat-fab:hover { transform: scale(1.1); }
+  .chat-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #ef4444; color: white; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #06102a;
+  }
+  .chat-window {
+    position: fixed; bottom: 100px; right: 28px; z-index: 1000;
+    width: 360px; height: 500px;
+    background: white; border-radius: 20px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column;
+    transform: scale(0.85) translateY(20px); opacity: 0;
+    pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+  .chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+  .chat-header { background: linear-gradient(135deg, #0A1F44, #142d5f); padding: 18px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: #C9922A; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-size: 14px; font-weight: 600; color: white; }
+  .chat-header-status { font-size: 11px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 4px; }
+  .chat-header-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; }
+  .chat-close { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .chat-msg { max-width: 85%; display: flex; flex-direction: column; gap: 4px; }
+  .chat-msg.bot { align-self: flex-start; }
+  .chat-msg.user { align-self: flex-end; }
+  .chat-bubble { padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.55; }
+  .chat-msg.bot .chat-bubble { background: #F7F8FA; color: #1A1A2E; border-radius: 4px 16px 16px 16px; }
+  .chat-msg.user .chat-bubble { background: #0A1F44; color: white; border-radius: 16px 4px 16px 16px; }
+  .chat-time { font-size: 10px; color: #6B7280; }
+  .chat-msg.user .chat-time { text-align: right; }
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: #F7F8FA; border-radius: 4px 16px 16px 16px; width: fit-content; }
+  .chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: #6B7280; animation: typing 1.2s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)} }
+  .chat-quick-btns { padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .chat-quick-btn { padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; background: rgba(10,31,68,0.06); border: 1px solid rgba(10,31,68,0.15); color: #0A1F44; cursor: pointer; transition: all 0.2s; }
+  .chat-quick-btn:hover { background: #0A1F44; color: white; }
+  .chat-input-row { padding: 12px 16px; border-top: 1px solid #E5E7EB; display: flex; gap: 8px; flex-shrink: 0; }
+  .chat-input { flex: 1; border: 1px solid #E5E7EB; border-radius: 100px; padding: 10px 16px; font-size: 13px; outline: none; }
+  .chat-input:focus { border-color: #0A1F44; }
+  .chat-send { width: 38px; height: 38px; border-radius: 50%; background: #0A1F44; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .chat-send:hover { background: #C9922A; }
+
+  /* Mobile hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
+  .mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; background: var(--navy); padding: 20px 5%; z-index: 998; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 15px; font-weight: 500; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: block; }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .nav-cta { margin-top: 16px; text-align: center; border-bottom: none; border-radius: 6px; }
+  @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .chat-window { width: calc(100vw - 32px); right: 16px; } }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo-wrap">
+    <img src="logo.png" alt="Milan Infotech Pvt Ltd" class="logo-img" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+    <div class="nav-right" style="display:flex;align-items:center;gap:12px;">
+    <a href="contact.html" class="nav-cta">Get in Touch</a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- PAGE HERO — with background image -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span class="current">About Us</span>
+  </div>
+  <h1>About <span>Milan Infotech</span></h1>
+  <p>Pioneer in Technology. Leader in Services. Serving enterprises with integrity and excellence since 2007.</p>
+</div>
+
+<!-- MISSION & VISION -->
+<section>
+  <div class="section-tag">Our Foundation</div>
+  <h2 class="section-title">Mission & Vision</h2>
+  <p class="section-sub">Two pillars that guide every decision, every project, and every relationship at Milan Infotech.</p>
+  <div class="mv-grid">
+    <div class="mv-card mission">
+      <div class="mv-label">Our Mission</div>
+      <div class="mv-title">Delivering Technology That Works</div>
+      <div class="mv-text">To be the most preferred and trusted IT solutions provider — delivering reliable, cost-effective, and innovative technology services that create measurable value for clients across industries.</div>
+    </div>
+    <div class="mv-card vision">
+      <div class="mv-label">Our Vision</div>
+      <div class="mv-title">A Global IT Partner of Choice</div>
+      <div class="mv-text">To be recognised as a global leader in IT services by combining deep domain expertise, certified talent, and flexible delivery models to transform how businesses operate in the digital era.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="story">
+  <div class="section-tag">Our Journey</div>
+  <h2 class="section-title">The Milan Infotech Story</h2>
+  <p class="section-sub">From a Bangalore startup to a multi-city enterprise IT powerhouse — our journey has been defined by consistent growth, strong partnerships, and client trust.</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2007</div>
+      <div class="tl-heading">Founded in Bangalore</div>
+      <div class="tl-desc">Milan Infotech Pvt Ltd was incorporated in Bangalore, Karnataka, with a clear focus on IT staffing and software services for the BFSI and manufacturing sectors.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2010</div>
+      <div class="tl-heading">Expanding into Engineering Services</div>
+      <div class="tl-desc">Entered the automotive and aerospace engineering services domain, partnering with tier-1 players like Tata Motors, Airbus, and SAFRAN.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2013</div>
+      <div class="tl-heading">ERP Practice Launched</div>
+      <div class="tl-desc">Launched a dedicated SAP and Oracle ERP practice, becoming a trusted implementation and support partner for large enterprises across India.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2016</div>
+      <div class="tl-heading">Global Partnership with BCC Services, France</div>
+      <div class="tl-desc">Signed a strategic partnership with BCC Services of France, extending our delivery capabilities to European clients and enabling global ERP excellence.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2019</div>
+      <div class="tl-heading">Multi-City Expansion</div>
+      <div class="tl-desc">Opened captive centers in Pune and Hyderabad — strengthening our pan-India presence and talent pool.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2022+</div>
+      <div class="tl-heading">200+ Professionals, 50+ Clients</div>
+      <div class="tl-desc">Today, Milan Infotech employs over 200 IT professionals, serving 50+ enterprise clients across 10+ industries with end-to-end IT solutions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section>
+  <div class="section-tag">What We Stand For</div>
+  <h2 class="section-title">Our Core Values</h2>
+  <p class="section-sub">The principles that shape our culture, our work ethic, and every client relationship we build.</p>
+  <div class="values-grid">
+    <div class="value-card">
+      <span class="value-icon">🎯</span>
+      <div class="value-name">Client First</div>
+      <p class="value-desc">Every decision we take is guided by what creates the most value for our clients. Their success is our success.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">💡</span>
+      <div class="value-name">Innovation</div>
+      <p class="value-desc">We continuously explore new technologies and approaches to stay ahead of the curve and deliver better outcomes.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🤝</span>
+      <div class="value-name">Integrity</div>
+      <p class="value-desc">We operate with transparency, honesty, and professionalism in every interaction — with clients, partners, and employees.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">⚡</span>
+      <div class="value-name">Agility</div>
+      <p class="value-desc">We move fast, adapt quickly, and respond with urgency to changing client needs without compromising quality.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🌐</span>
+      <div class="value-name">Global Thinking</div>
+      <p class="value-desc">We help clients configure IT architectures across multiple geographies to reduce costs and maximize performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section class="leadership">
+  <div class="section-tag">Our People</div>
+  <h2 class="section-title">Leadership Team</h2>
+  <p class="section-sub">Experienced professionals driving Milan Infotech's vision, strategy, and growth.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="avatar">BM</div>
+      <div class="team-name">Mr. Basavaraj M. C.</div>
+      <div class="team-role">Director & CEO</div>
+      <div class="team-desc">Visionary leader steering Milan Infotech's strategic direction and long-term growth across global markets.</div>
+    </div>
+    <div class="team-card">
+      <div class="avatar">PJ</div>
+      <div class="team-name">Ms. Preeti Janwadkar</div>
+      <div class="team-role">Director — Finance</div>
+      <div class="team-desc">Overseeing financial strategy, compliance, and fiscal health of the organisation with precision and integrity.</div>
+    </div>
+    <div class="team-card">
+      <div class="avatar">MM</div>
+      <div class="team-name">Mr. Mobeen Mahamood</div>
+      <div class="team-role">Director — Technology Infrastructure</div>
+      <div class="team-desc">Leading technology infrastructure, architecture, and innovation initiatives across all delivery centers.</div>
+    </div>
+    <div class="team-card">
+      <div class="avatar">SK</div>
+      <div class="team-name">Dr. Sanjeev Kubakaddi</div>
+      <div class="team-role">Core Team</div>
+      <div class="team-desc">Contributing deep academic and domain expertise to drive research-backed technology solutions and strategies.</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 48px;">
+    <div class="section-tag" style="color: rgba(255,255,255,0.4); margin-bottom: 20px; display: block;">Advisory Team</div>
+    <div class="advisory-grid">
+      <div class="advisory-card">
+        <div class="adv-avatar">AG</div>
+        <div>
+          <div class="adv-name">Mr. Agradoot Ghatak</div>
+          <div class="adv-role">Advisory Member</div>
+        </div>
+      </div>
+      <div class="advisory-card">
+        <div class="adv-avatar">VL</div>
+        <div>
+          <div class="adv-name">Mr. Vishwanath Lingayat</div>
+          <div class="adv-role">Advisory Member</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners">
+  <div class="section-tag">Global Alliances</div>
+  <h2 class="section-title">Our Business Partners</h2>
+  <p class="section-sub">Strategic partnerships that extend our capabilities and enable world-class delivery for clients worldwide.</p>
+  <div class="partners-grid">
+    <div class="partner-card">
+      <div class="partner-flag" style="background: #fff3cd;">🇫🇷</div>
+      <div>
+        <div class="partner-name">BCC Services</div>
+        <div class="partner-country">France</div>
+        <div class="partner-desc">A premier Enterprise ERP/SAP/Oracle solutions provider offering quality business software solutions. Our partnership with BCC Services enables seamless global ERP delivery and enterprise technology services.</div>
+      </div>
+    </div>
+    <div class="partner-card">
+      <div class="partner-flag" style="background: #e8f4d4;">🇮🇳</div>
+      <div>
+        <div class="partner-name">ITIE Yemag</div>
+        <div class="partner-country">India</div>
+        <div class="partner-desc">A trusted Indian technology and placement services partner enhancing our delivery capability across software services, engineering, and staff augmentation for domestic and global clients.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICES -->
+<section>
+  <div class="section-tag">Our Presence</div>
+  <h2 class="section-title">Pan-India Office Network</h2>
+  <p class="section-sub">Strategically located offices and captive centers across India to ensure proximity to clients and talent.</p>
+  <div class="offices-grid">
+    <div class="office-card">
+      <span class="office-icon">🏢</span>
+      <div class="office-city">Bangalore</div>
+      <div class="office-type hq">Headquarters (3 Branches)</div>
+    </div>
+    <div class="office-card">
+      <span class="office-icon">📍</span>
+      <div class="office-city">Pune</div>
+      <div class="office-type branch">Captive Center</div>
+    </div>
+    <div class="office-card">
+      <span class="office-icon">📍</span>
+      <div class="office-city">Hyderabad</div>
+      <div class="office-type branch">Captive Center</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Want to Work With Us?</h2>
+  <p>Whether you're looking for a technology partner or exploring career opportunities, we'd love to hear from you.</p>
+  <a href="contact.html" class="btn-white">Get in Touch</a>
+</div>
+
+<!-- FOOTER -->
+<!-- FOOTER WITH SOCIAL ICONS -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <img src="logo.png" alt="Milan Infotech Pvt Ltd" style="height:48px; width:auto;" />
+      <p>Making technology work for everyone since 2007. Your preferred vendor and solution provider for Engineering, Software, ERP, and Staff Augmentation services.</p>
+      <div class="social-row">
+        <a href="https://www.instagram.com/milaninfotechprivatelimited" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/milan-infotech-pvt-ltd/" target="_blank" rel="noopener" class="social-icon linkedin" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/MilanInfotechPvtLtd" target="_blank" rel="noopener" class="social-icon facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://x.com/LimitedMilan" target="_blank" rel="noopener" class="social-icon twitter" title="Twitter / X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Corporate Office</h4>
+      <ul>
+        <li><a href="#">World Trade Centre, 22nd Floor, Unit No 2201/A, Dr Rajkumar Rd, Malleshwaram, Bengaluru, Karnataka 560055</a></li>
+        <li><a href="tel:+919035056064">+91 9035056064</a></li>
+        <li><a href="mailto:info@milan-infotech.com">info@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Admin Office</h4>
+      <ul>
+        <li><a href="#">Swastik Manandi Arcade, S2 Block, 2nd Floor, 155, VV Giri Colony, Seshadripuram, Bengaluru, Karnataka 560020</a></li>
+        <li><a href="tel:+919845078365">+91 9845078365</a></li>
+        <li><a href="mailto:hr@milan-infotech.com">hr@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2007 Milan Infotech Pvt Ltd. All rights reserved.</p>
+    <p>Partnering with BCC Services, France &amp; ITIE Yemag, India</p>
+  </div>
+</footer>
+
+
+<!-- CHATBOT WIDGET -->
+<button class="chat-fab" onclick="toggleChat()" id="chatFab" title="Chat with us">
+  <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <span class="chat-badge">1</span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">&#129302;</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Milan Infotech Assistant</div>
+      <div class="chat-header-status">Online &mdash; typically replies instantly</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">&#128075; Hi there! I'm the Milan Infotech virtual assistant. How can I help you today?</div>
+      <div class="chat-time">Just now</div>
+    </div>
+    <div class="chat-msg bot">
+      <div class="chat-bubble">Ask me about our services, clients, products, offices, or how to get in touch.</div>
+      <div class="chat-time">Just now</div>
+    </div>
+  </div>
+  <div class="chat-quick-btns" id="quickBtns">
+    <button class="chat-quick-btn" onclick="quickReply('Our Services')">Our Services</button>
+    <button class="chat-quick-btn" onclick="quickReply('Contact Info')">Contact Info</button>
+    <button class="chat-quick-btn" onclick="quickReply('Our Products')">Products</button>
+    <button class="chat-quick-btn" onclick="quickReply('About the company')">About Us</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message&hellip;" onkeydown="if(event.key==='Enter') sendChat()" />
+    <button class="chat-send" onclick="sendChat()">
+      <svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+var chatOpen=false;
+var chatResponses={
+  'our services':'We offer 7 core services: Software Development, ERP Solutions (SAP/Oracle), Staff Augmentation, Testing & QA, Engineering Services (Automotive/Aerospace), Infrastructure Management, and Software Product Sales. <a href="services.html" style="color:var(--gold);">View all services &rarr;</a>',
+  'contact info':'You can reach us at:<br>&#128222; +91 9035056064<br>&#128231; info@milan-infotech.com<br>&#127970; World Trade Centre, 22nd Floor, Bengaluru 560055<br><a href="contact.html" style="color:var(--gold);">Visit our contact page &rarr;</a>',
+  'our products':'We have 3 products:<br>&#127968; <b>Zoypg.com</b> &mdash; PG discovery &amp; management platform<br>&#128663; <b>Gadiwala</b> &mdash; Professional driver booking app<br>&#128178; <b>ExChek</b> &mdash; Fintech for cross-border payments<br><a href="products.html" style="color:var(--gold);">Explore products &rarr;</a>',
+  'about the company':'Milan Infotech Pvt Ltd was founded in 2007 in Bangalore. We have 200+ IT professionals, 3 Pan-India offices, and serve 50+ enterprise clients across 10+ industries. <a href="about.html" style="color:var(--gold);">Learn more &rarr;</a>',
+  'clients':'We serve leading companies like Airbus, TATA Motors, Mercedes-Benz, LG, Whirlpool, HAL, SAFRAN, and many more. <a href="clients.html" style="color:var(--gold);">See all clients &rarr;</a>',
+  'default':'Thank you! Our team will get back to you shortly. For immediate help: <b>+91 9035056064</b> or <b>info@milan-infotech.com</b>'
+};
+function toggleChat(){chatOpen=!chatOpen;document.getElementById('chatWindow').classList.toggle('open',chatOpen);var b=document.querySelector('.chat-badge');if(chatOpen&&b)b.style.display='none';}
+function addMessage(text,isUser){var msgs=document.getElementById('chatMessages');var msg=document.createElement('div');msg.className='chat-msg '+(isUser?'user':'bot');var now=new Date();msg.innerHTML='<div class="chat-bubble">'+text+'</div><div class="chat-time">'+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+'</div>';msgs.appendChild(msg);msgs.scrollTop=msgs.scrollHeight;}
+function showTyping(){var msgs=document.getElementById('chatMessages');var t=document.createElement('div');t.className='chat-msg bot';t.id='typingIndicator';t.innerHTML='<div class="chat-typing"><span></span><span></span><span></span></div>';msgs.appendChild(t);msgs.scrollTop=msgs.scrollHeight;}
+function hideTyping(){var t=document.getElementById('typingIndicator');if(t)t.remove();}
+function getResponse(msg){var m=msg.toLowerCase();if(m.includes('service'))return chatResponses['our services'];if(m.includes('contact')||m.includes('phone')||m.includes('email'))return chatResponses['contact info'];if(m.includes('product')||m.includes('zoypg')||m.includes('gadiwala')||m.includes('exchek'))return chatResponses['our products'];if(m.includes('about')||m.includes('company')||m.includes('founded'))return chatResponses['about the company'];if(m.includes('client')||m.includes('customer'))return chatResponses['clients'];if(m.includes('hello')||m.includes('hi')||m.includes('hey'))return '&#128075; Hello! How can I help you today?';return chatResponses['default'];}
+function sendChat(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;document.getElementById('quickBtns').style.display='none';addMessage(text,true);input.value='';showTyping();setTimeout(function(){hideTyping();addMessage(getResponse(text),false);},1000+Math.random()*500);}
+function quickReply(text){document.getElementById('chatInput').value=text;sendChat();}
+</script>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="products.html">Products</a>
+  <a href="clients.html">Clients</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="nav-cta">Get in Touch</a>
+</div>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+
+</body>
+</html>

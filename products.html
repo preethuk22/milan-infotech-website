@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Products — Milan Infotech Pvt Ltd</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0A1F44; --navy-light: #142d5f; --gold: #C9922A; --gold-light: #e8b04a;
+    --white: #FFFFFF; --off-white: #F7F8FA; --gray: #6B7280; --light-gray: #E5E7EB;
+    --text-dark: #1A1A2E;
+    --font-head: 'Playfair Display', serif; --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 999;
+    background: var(--white); 
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 90px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .logo-wrap { display: flex; align-items: center; text-decoration: none; }
+  .logo-img { height: 80px; width: 120px; display: block; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: rgba(14, 13, 13, 0.85); text-decoration: none; font-size: 14px; font-weight: bold; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+  .nav-cta { background: var(--gold); color: var(--white); padding: 10px 22px; border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* PAGE HERO */
+  .page-hero {
+    background-image: url('images/products-hero-bg.jpeg');
+    background-size: cover;
+    background-position: center; 
+    background-color: var(--navy); 
+    height: 100vh;
+    padding: 160px 5% 260px; position: relative; overflow: hidden ;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,31,68,0.88) 0%, rgba(20,45,95,0.82) 60%, rgba(26,58,107,0.78) 100%);
+    pointer-events: none; z-index: 0;
+  }
+  .page-hero > * { position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .breadcrumb a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; }
+  .breadcrumb span { color: rgba(255,255,255,0.3); font-size: 13px; }
+  .breadcrumb .current { color: var(--gold-light); font-size: 13px; }
+  .page-hero h1 { font-family: var(--font-head); font-size: clamp(36px, 4.5vw, 58px); color: var(--white); line-height: 1.15; margin-bottom: 18px; }
+  .page-hero h1 span { color: var(--gold-light); }
+  .page-hero p { font-size: 17px; color: rgba(255,255,255,0.68); max-width: 600px; line-height: 1.75; }
+
+  /* SECTION BASE */
+  section { padding: 80px 5%; }
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-head); font-size: clamp(26px, 3vw, 38px); color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+  .section-sub { font-size: 16px; color: var(--gray); line-height: 1.75; max-width: 600px; }
+
+  /* PRODUCT HERO CARD */
+  .product-block { margin-bottom: 80px; }
+  .product-block:last-child { margin-bottom: 0; }
+
+  .product-header {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 0;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(10,31,68,0.12);
+    margin-bottom: 40px;
+  }
+  .product-header.reverse { grid-template-columns: 2fr 1fr; }
+  .product-header.reverse .prod-badge-col { order: 2; }
+  .product-header.reverse .prod-info-col { order: 1; }
+
+  .prod-badge-col {
+    padding: 52px 44px;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  }
+  .prod-badge-col.navy { background: var(--navy); }
+  .prod-badge-col.gold { background: var(--gold); }
+  .prod-badge-col.dark { background: #0d1f3c; }
+
+  .prod-number { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .prod-icon { font-size: 52px; margin-bottom: 20px; }
+  .prod-name { font-family: var(--font-head); font-size: 28px; color: var(--white); line-height: 1.2; margin-bottom: 10px; }
+  .prod-tagline { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+  .prod-badge {
+    display: inline-block; margin-top: 20px;
+    padding: 6px 16px; border-radius: 100px;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  }
+
+  .prod-info-col { background: var(--off-white); padding: 52px 44px; }
+  .prod-info-col h3 { font-family: var(--font-head); font-size: 22px; color: var(--navy); margin-bottom: 14px; }
+  .prod-info-col p { font-size: 14px; color: var(--gray); line-height: 1.75; margin-bottom: 24px; }
+
+  /* FEATURES GRID */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .feature-card {
+    background: var(--white); border: 1px solid var(--light-gray);
+    border-radius: 14px; padding: 28px 24px;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .feature-card:hover { box-shadow: 0 8px 32px rgba(10,31,68,0.09); transform: translateY(-3px); }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feat-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .feat-title { font-family: var(--font-head); font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+  .feat-desc { font-size: 13px; color: var(--gray); line-height: 1.65; }
+
+  /* TWO-COLUMN FEATURES (for Gadiwala with driver/owner split) */
+  .audience-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .audience-col { background: var(--white); border-radius: 16px; overflow: hidden; border: 1px solid var(--light-gray); }
+  .audience-col-header { padding: 20px 28px; display: flex; align-items: center; gap: 12px; }
+  .audience-col-header.driver { background: var(--navy); }
+  .audience-col-header.owner { background: var(--gold); }
+  .audience-col-header span { font-family: var(--font-head); font-size: 18px; color: var(--white); }
+  .audience-col-body { padding: 24px 28px; }
+  .feat-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .feat-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--text-dark); line-height: 1.55; }
+  .feat-list li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 5px; }
+
+  /* EXCHEK GRID */
+  .exchek-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .exchek-card {
+    border-radius: 14px; padding: 32px 24px; text-align: center;
+  }
+  .exchek-card.c1 { background: var(--navy); }
+  .exchek-card.c2 { background: var(--gold); }
+  .exchek-card.c3 { background: var(--off-white); border: 1px solid var(--light-gray); }
+  .exchek-card.c4 { background: #0d1f3c; }
+  .ec-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+  .ec-title { font-family: var(--font-head); font-size: 16px; margin-bottom: 10px; }
+  .exchek-card.c1 .ec-title, .exchek-card.c2 .ec-title, .exchek-card.c4 .ec-title { color: var(--white); }
+  .exchek-card.c3 .ec-title { color: var(--navy); }
+  .ec-desc { font-size: 13px; line-height: 1.65; }
+  .exchek-card.c1 .ec-desc, .exchek-card.c2 .ec-desc, .exchek-card.c4 .ec-desc { color: rgba(255,255,255,0.65); }
+  .exchek-card.c3 .ec-desc { color: var(--gray); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--light-gray); margin: 72px 0; }
+
+  /* CTA */
+  .cta-band { background: linear-gradient(120deg, var(--gold) 0%, #a87820 100%); padding: 70px 5%; text-align: center; }
+  .cta-band h2 { font-family: var(--font-head); font-size: clamp(26px, 3vw, 38px); color: var(--white); margin-bottom: 14px; }
+  .cta-band p { font-size: 16px; color: rgba(255,255,255,0.85); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+  .btn-white { background: var(--white); color: var(--gold); padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all 0.2s; display: inline-block; }
+  .btn-white:hover { background: var(--navy); color: var(--white); }
+
+  /* FOOTER */
+  footer { background: #06102a; padding: 60px 5% 30px; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr; gap: 32px; margin-bottom: 48px; }
+  .footer-about p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-top: 12px; }
+  .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; line-height: 1.6; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  @media (max-width: 900px) {
+    .product-header, .product-header.reverse { grid-template-columns: 1fr; }
+    .product-header.reverse .prod-badge-col { order: 0; }
+    .product-header.reverse .prod-info-col { order: 0; }
+    .audience-tabs { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Social icons */
+  .social-row { display: flex; gap: 10px; margin-top: 18px; }
+  .social-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: rgba(255,255,255,0.65);
+    font-size: 15px; transition: all 0.25s;
+  }
+  .social-icon:hover { transform: translateY(-3px); }
+  .social-icon.instagram:hover { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; border-color: transparent; }
+  .social-icon.linkedin:hover { background: #0077b5; color: white; border-color: transparent; }
+  .social-icon.facebook:hover { background: #1877f2; color: white; border-color: transparent; }
+  .social-icon.twitter:hover { background: #000; color: white; border-color: transparent; }
+  .social-icon.youtube:hover { background: #ff0000; color: white; border-color: transparent; }
+  .social-icon svg { width: 16px; height: 16px; fill: currentColor; }
+  /* Chatbot styles */
+  .chat-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, #C9922A, #a87820);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,146,42,0.45);
+    transition: all 0.3s;
+  }
+  .chat-fab:hover { transform: scale(1.1); }
+  .chat-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #ef4444; color: white; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #06102a;
+  }
+  .chat-window {
+    position: fixed; bottom: 100px; right: 28px; z-index: 1000;
+    width: 360px; height: 500px;
+    background: white; border-radius: 20px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column;
+    transform: scale(0.85) translateY(20px); opacity: 0;
+    pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+  .chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+  .chat-header { background: linear-gradient(135deg, #0A1F44, #142d5f); padding: 18px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: #C9922A; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-size: 14px; font-weight: 600; color: white; }
+  .chat-header-status { font-size: 11px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 4px; }
+  .chat-header-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; }
+  .chat-close { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .chat-msg { max-width: 85%; display: flex; flex-direction: column; gap: 4px; }
+  .chat-msg.bot { align-self: flex-start; }
+  .chat-msg.user { align-self: flex-end; }
+  .chat-bubble { padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.55; }
+  .chat-msg.bot .chat-bubble { background: #F7F8FA; color: #1A1A2E; border-radius: 4px 16px 16px 16px; }
+  .chat-msg.user .chat-bubble { background: #0A1F44; color: white; border-radius: 16px 4px 16px 16px; }
+  .chat-time { font-size: 10px; color: #6B7280; }
+  .chat-msg.user .chat-time { text-align: right; }
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: #F7F8FA; border-radius: 4px 16px 16px 16px; width: fit-content; }
+  .chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: #6B7280; animation: typing 1.2s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)} }
+  .chat-quick-btns { padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .chat-quick-btn { padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; background: rgba(10,31,68,0.06); border: 1px solid rgba(10,31,68,0.15); color: #0A1F44; cursor: pointer; transition: all 0.2s; }
+  .chat-quick-btn:hover { background: #0A1F44; color: white; }
+  .chat-input-row { padding: 12px 16px; border-top: 1px solid #E5E7EB; display: flex; gap: 8px; flex-shrink: 0; }
+  .chat-input { flex: 1; border: 1px solid #E5E7EB; border-radius: 100px; padding: 10px 16px; font-size: 13px; outline: none; }
+  .chat-input:focus { border-color: #0A1F44; }
+  .chat-send { width: 38px; height: 38px; border-radius: 50%; background: #0A1F44; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .chat-send:hover { background: #C9922A; }
+
+  /* Mobile hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
+  .mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; background: var(--navy); padding: 20px 5%; z-index: 998; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 15px; font-weight: 500; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: block; }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .nav-cta { margin-top: 16px; text-align: center; border-bottom: none; border-radius: 6px; }
+  @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .chat-window { width: calc(100vw - 32px); right: 16px; } }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo-wrap">
+    <img src="logo.png" alt="Milan Infotech Pvt Ltd" class="logo-img" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+    <div class="nav-right" style="display:flex;align-items:center;gap:12px;">
+    <a href="contact.html" class="nav-cta">Get in Touch</a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span class="current">Our Products</span>
+  </div>
+  <h1>Our <span>Product Portfolio</span></h1>
+  <p>Milan Infotech builds and brings to market digital products that solve real-world problems — from property management to fintech and mobility. Discover what we have created.</p>
+</div>
+
+<!-- PRODUCTS SECTION -->
+<section>
+  <div class="section-tag">What We Have Built</div>
+  <h2 class="section-title">Innovative Products for a Digital World</h2>
+  <p class="section-sub">Three distinct platforms, each purpose-built to address a specific market need with technology-first thinking.</p>
+
+  <!-- ─── PRODUCT 1: ZOYPG ─── -->
+  <div class="product-block" style="margin-top: 60px;">
+    <div class="product-header">
+      <div class="prod-badge-col navy">
+        <div class="prod-number">Product 01</div>
+        <div class="prod-icon">🏠</div>
+        <div class="prod-name">Zoypg.com</div>
+        <div class="prod-tagline">Trusted PG Discovering & Management Platform</div>
+        <span class="prod-badge">PropTech · Rental Housing</span>
+      </div>
+      <div class="prod-info-col">
+        <h3>Find and Manage Your Perfect PG</h3>
+        <p>Zoypg.com is a comprehensive platform that brings together PG seekers and PG owners under one trusted digital roof. Whether you are a working professional looking for a safe, verified paying guest accommodation or a property owner wanting to efficiently manage your listings and tenants, Zoypg delivers a seamless end-to-end experience.</p>
+        <p>With verified listings, transparent pricing, and smart management tools, Zoypg removes the friction from PG discovery and rental management across India's cities.</p>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feat-icon">🔍</span>
+        <div class="feat-title">Verified PG Listings</div>
+        <div class="feat-desc">All accommodations are verified before listing — photos, amenities, pricing, and location details are reviewed to ensure accuracy and trust.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">📍</span>
+        <div class="feat-title">Location-Based Discovery</div>
+        <div class="feat-desc">Search PGs by locality, proximity to office or college, budget, and preferences like gender, meal type, and furnishing.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🧑‍💼</span>
+        <div class="feat-title">Owner Management Dashboard</div>
+        <div class="feat-desc">PG owners can manage vacancies, track rent payments, handle tenant onboarding, and communicate with residents from a single dashboard.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">💰</span>
+        <div class="feat-title">Transparent Pricing</div>
+        <div class="feat-desc">No hidden charges. Seekers see the full cost — rent, deposit, and included amenities — upfront before connecting with any owner.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">⭐</span>
+        <div class="feat-title">Ratings & Reviews</div>
+        <div class="feat-desc">Genuine tenant reviews help future seekers make informed decisions, and help owners build a trusted reputation over time.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">📲</span>
+        <div class="feat-title">Mobile-First Experience</div>
+        <div class="feat-desc">Designed for on-the-go use — browse, shortlist, and connect with PG owners directly through a clean, intuitive mobile interface.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─── PRODUCT 2: GADIWALA ─── -->
+  <div class="product-block">
+    <div class="product-header reverse">
+      <div class="prod-info-col">
+        <h3>The Smart Way to Hire and Drive</h3>
+        <p>Gadiwala is a mobility platform that connects professional drivers with vehicle owners who need reliable, on-demand driving services. Built for trust, safety, and flexibility — Gadiwala empowers drivers to build a career on their own schedule while giving owners peace of mind with verified, insured, and rated drivers.</p>
+        <p>Whether you need a driver for a single trip or want to schedule a monthly arrangement, Gadiwala brings structure, safety, and convenience to personal vehicle management.</p>
+      </div>
+      <div class="prod-badge-col gold">
+        <div class="prod-number">Product 02</div>
+        <div class="prod-icon">🚗</div>
+        <div class="prod-name">Gadiwala</div>
+        <div class="prod-tagline">Book My Driver — Professional Driver Booking Platform</div>
+        <span class="prod-badge">Mobility · On-Demand Drivers</span>
+      </div>
+    </div>
+
+    <div class="audience-tabs">
+      <!-- FOR DRIVERS -->
+      <div class="audience-col">
+        <div class="audience-col-header driver">
+          <span style="font-size:24px;">🧑‍✈️</span>
+          <span>For Drivers</span>
+        </div>
+        <div class="audience-col-body">
+          <ul class="feat-list">
+            <li>Create a verified profile with Driving Licence, photo, and work experience</li>
+            <li>Go online or offline — accept trips entirely on your own schedule</li>
+            <li>Receive real-time trip requests based on your current location</li>
+            <li>In-app navigation and direct communication with the vehicle owner</li>
+            <li>Earnings dashboard with weekly payouts via UPI transfer</li>
+            <li>Build a reputation score through passenger ratings and reviews</li>
+            <li>Insurance automatically activated for every booked trip</li>
+          </ul>
+        </div>
+      </div>
+      <!-- FOR OWNERS -->
+      <div class="audience-col">
+        <div class="audience-col-header owner">
+          <span style="font-size:24px;">🏁</span>
+          <span>For Vehicle Owners</span>
+        </div>
+        <div class="audience-col-body">
+          <ul class="feat-list">
+            <li>Book daily, weekly, or monthly drivers on demand — no long-term commitments</li>
+            <li>View Driving Licence verification, ratings, and full trip history before booking</li>
+            <li>Schedule advance bookings up to 30 days ahead</li>
+            <li>Real-time tracking during trips for peace of mind</li>
+            <li>Flexible booking cancellation and rescheduling options</li>
+            <li>Transparent pricing — pay only for what you book</li>
+            <li>Dedicated in-app support for any booking issues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─── PRODUCT 3: EXCHEK ─── -->
+  <div class="product-block">
+    <div class="product-header">
+      <div class="prod-badge-col dark">
+        <div class="prod-number">Product 03</div>
+        <div class="prod-icon">💱</div>
+        <div class="prod-name">ExChek</div>
+        <div class="prod-tagline">Fintech Platform for Cross-Border Payments and Trade Finance</div>
+        <span class="prod-badge">Fintech · Trade Finance · Forex</span>
+      </div>
+      <div class="prod-info-col">
+        <h3>Global Trade. Simplified.</h3>
+        <p>ExChek Fintech Private Limited is a specialized financial technology platform built for businesses that operate across borders. ExChek addresses the most complex pain points in international trade — from cross-border payment execution to regulatory compliance under RBI and FEMA guidelines — through a single, secure, and intuitive platform.</p>
+        <p>Designed for importers, exporters, and treasury teams, ExChek combines deep fintech expertise with robust technology infrastructure to make global trade operations faster, more transparent, and fully compliant.</p>
+      </div>
+    </div>
+
+    <div class="exchek-grid">
+      <div class="exchek-card c1">
+        <span class="ec-icon">🌐</span>
+        <div class="ec-title">Cross-Border Payment Platform</div>
+        <div class="ec-desc">A secure, live platform for faster international payments — reducing settlement time and eliminating unnecessary intermediary friction.</div>
+      </div>
+      <div class="exchek-card c2">
+        <span class="ec-icon">📋</span>
+        <div class="ec-title">Trade Finance Operations</div>
+        <div class="ec-desc">Specialized tools for managing Trade Finance, Letters of Credit (LCs), Incoterms, and SWIFT messaging in one unified workflow.</div>
+      </div>
+      <div class="exchek-card c3">
+        <span class="ec-icon">⚖️</span>
+        <div class="ec-title">Regulatory Compliance</div>
+        <div class="ec-desc">Built-in features to ensure compliance with RBI and FEMA regulations in India — reducing risk for every cross-border transaction.</div>
+      </div>
+      <div class="exchek-card c4">
+        <span class="ec-icon">💹</span>
+        <div class="ec-title">Forex Management</div>
+        <div class="ec-desc">Comprehensive foreign exchange and currency tracking tools to manage forex exposure and optimize conversion rates for global trade.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Interested in Our Products?</h2>
+  <p>Partner with Milan Infotech to explore licensing, integration, or investment opportunities across our product portfolio.</p>
+  <a href="contact.html" class="btn-white">Get in Touch</a>
+</div>
+
+<!-- FOOTER -->
+<!-- FOOTER WITH SOCIAL ICONS -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <img src="logo.png" alt="Milan Infotech Pvt Ltd" style="height:48px; width:auto;" />
+      <p>Making technology work for everyone since 2007. Your preferred vendor and solution provider for Engineering, Software, ERP, and Staff Augmentation services.</p>
+      <div class="social-row">
+        <a href="https://www.instagram.com/milaninfotechprivatelimited" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/milan-infotech-pvt-ltd/" target="_blank" rel="noopener" class="social-icon linkedin" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/MilanInfotechPvtLtd" target="_blank" rel="noopener" class="social-icon facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://x.com/LimitedMilan" target="_blank" rel="noopener" class="social-icon twitter" title="Twitter / X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Corporate Office</h4>
+      <ul>
+        <li><a href="#">World Trade Centre, 22nd Floor, Unit No 2201/A, Dr Rajkumar Rd, Malleshwaram, Bengaluru, Karnataka 560055</a></li>
+        <li><a href="tel:+919035056064">+91 9035056064</a></li>
+        <li><a href="mailto:info@milan-infotech.com">info@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li> 
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Admin Office</h4>
+      <ul>
+        <li><a href="#">Swastik Manandi Arcade, S2 Block, 2nd Floor, 155, VV Giri Colony, Seshadripuram, Bengaluru, Karnataka 560020</a></li>
+        <li><a href="tel:+919845078365">+91 9845078365</a></li>
+        <li><a href="mailto:hr@milan-infotech.com">hr@milan-infotech.com</a></li>
+        <li><a href="https://www.milan-infotech.com" target="_blank">www.milan-infotech.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2007 Milan Infotech Pvt Ltd. All rights reserved.</p>
+    <p>Partnering with BCC Services, France &amp; ITIE Yemag, India</p>
+  </div>
+</footer>
+
+
+<!-- CHATBOT WIDGET -->
+<button class="chat-fab" onclick="toggleChat()" id="chatFab" title="Chat with us">
+  <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <span class="chat-badge">1</span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">&#129302;</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Milan Infotech Assistant</div>
+      <div class="chat-header-status">Online &mdash; typically replies instantly</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">&#128075; Hi there! I'm the Milan Infotech virtual assistant. How can I help you today?</div>
+      <div class="chat-time">Just now</div>
+    </div>
+    <div class="chat-msg bot">
+      <div class="chat-bubble">Ask me about our services, clients, products, offices, or how to get in touch.</div>
+      <div class="chat-time">Just now</div>
+    </div>
+  </div>
+  <div class="chat-quick-btns" id="quickBtns">
+    <button class="chat-quick-btn" onclick="quickReply('Our Services')">Our Services</button>
+    <button class="chat-quick-btn" onclick="quickReply('Contact Info')">Contact Info</button>
+    <button class="chat-quick-btn" onclick="quickReply('Our Products')">Products</button>
+    <button class="chat-quick-btn" onclick="quickReply('About the company')">About Us</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message&hellip;" onkeydown="if(event.key==='Enter') sendChat()" />
+    <button class="chat-send" onclick="sendChat()">
+      <svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+var chatOpen=false;
+var chatResponses={
+  'our services':'We offer 7 core services: Software Development, ERP Solutions (SAP/Oracle), Staff Augmentation, Testing & QA, Engineering Services (Automotive/Aerospace), Infrastructure Management, and Software Product Sales. <a href="services.html" style="color:var(--gold);">View all services &rarr;</a>',
+  'contact info':'You can reach us at:<br>&#128222; +91 9035056064<br>&#128231; info@milan-infotech.com<br>&#127970; World Trade Centre, 22nd Floor, Bengaluru 560055<br><a href="contact.html" style="color:var(--gold);">Visit our contact page &rarr;</a>',
+  'our products':'We have 3 products:<br>&#127968; <b>Zoypg.com</b> &mdash; PG discovery &amp; management platform<br>&#128663; <b>Gadiwala</b> &mdash; Professional driver booking app<br>&#128178; <b>ExChek</b> &mdash; Fintech for cross-border payments<br><a href="products.html" style="color:var(--gold);">Explore products &rarr;</a>',
+  'about the company':'Milan Infotech Pvt Ltd was founded in 2007 in Bangalore. We have 200+ IT professionals, 3 Pan-India offices, and serve 50+ enterprise clients across 10+ industries. <a href="about.html" style="color:var(--gold);">Learn more &rarr;</a>',
+  'clients':'We serve leading companies like Airbus, TATA Motors, Mercedes-Benz, LG, Whirlpool, HAL, SAFRAN, and many more. <a href="clients.html" style="color:var(--gold);">See all clients &rarr;</a>',
+  'default':'Thank you! Our team will get back to you shortly. For immediate help: <b>+91 9035056064</b> or <b>info@milan-infotech.com</b>'
+};
+function toggleChat(){chatOpen=!chatOpen;document.getElementById('chatWindow').classList.toggle('open',chatOpen);var b=document.querySelector('.chat-badge');if(chatOpen&&b)b.style.display='none';}
+function addMessage(text,isUser){var msgs=document.getElementById('chatMessages');var msg=document.createElement('div');msg.className='chat-msg '+(isUser?'user':'bot');var now=new Date();msg.innerHTML='<div class="chat-bubble">'+text+'</div><div class="chat-time">'+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+'</div>';msgs.appendChild(msg);msgs.scrollTop=msgs.scrollHeight;}
+function showTyping(){var msgs=document.getElementById('chatMessages');var t=document.createElement('div');t.className='chat-msg bot';t.id='typingIndicator';t.innerHTML='<div class="chat-typing"><span></span><span></span><span></span></div>';msgs.appendChild(t);msgs.scrollTop=msgs.scrollHeight;}
+function hideTyping(){var t=document.getElementById('typingIndicator');if(t)t.remove();}
+function getResponse(msg){var m=msg.toLowerCase();if(m.includes('service'))return chatResponses['our services'];if(m.includes('contact')||m.includes('phone')||m.includes('email'))return chatResponses['contact info'];if(m.includes('product')||m.includes('zoypg')||m.includes('gadiwala')||m.includes('exchek'))return chatResponses['our products'];if(m.includes('about')||m.includes('company')||m.includes('founded'))return chatResponses['about the company'];if(m.includes('client')||m.includes('customer'))return chatResponses['clients'];if(m.includes('hello')||m.includes('hi')||m.includes('hey'))return '&#128075; Hello! How can I help you today?';return chatResponses['default'];}
+function sendChat(){var input=document.getElementById('chatInput');var text=input.value.trim();if(!text)return;document.getElementById('quickBtns').style.display='none';addMessage(text,true);input.value='';showTyping();setTimeout(function(){hideTyping();addMessage(getResponse(text),false);},1000+Math.random()*500);}
+function quickReply(text){document.getElementById('chatInput').value=text;sendChat();}
+</script>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="products.html">Products</a>
+  <a href="clients.html">Clients</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="nav-cta">Get in Touch</a>
+</div>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+# ============================================
+#   Milan Infotech Website — .gitignore
+# ============================================
+
+# ── Windows System Files ──
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ── macOS System Files ──
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ── VS Code Editor ──
+.vscode/
+*.code-workspace
+
+# ── Node / npm (if used later) ──
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ── Build Output (if added later) ──
+/dist/
+/build/
+/.cache/
+
+# ── Environment & Secrets ──
+.env
+.env.local
+.env.production
+*.key
+*.pem
+
+# ── Temporary / Backup Files ──
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# ── ZIP & Archive Files ──
+*.zip
+*.rar
+*.tar
+*.gz
+*.7z
+
+# ── Log Files ──
+*.log
+logs/
+
+# ── Large Media (optional — remove if you want images tracked) ──
+# *.mp4
+# *.mov
+# *.avi
+
+# ── IDE Files ──
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── Formspree / API Keys (never commit these) ──
+config.js
+secrets.js
