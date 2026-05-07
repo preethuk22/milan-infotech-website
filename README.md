@@ -177,4 +177,4 @@ This codebase is proprietary and maintained by the Milan Infotech development te
 
 ---
 
-*For queries: [marketing@zoypg.com](mailto:preethuk22@gmail.com)*
+*For queries: [preethuk22@gmail.com](mailto:preethuk22@gmail.com)*
